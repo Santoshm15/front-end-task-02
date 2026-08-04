@@ -94,6 +94,11 @@ h1 {
   padding: 15px;
   border-radius: 6px;
   background: #fafafa;
+  transition: 0.3s;
+}
+
+.task-card:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
 }
 
 .task-card h3 {
@@ -116,9 +121,22 @@ h1 {
   cursor: pointer;
 }
 
+.complete-btn {
+  background: #28a745;
+  color: white;
+}
+
+.complete-btn:hover {
+  background: #218838;
+}
+
 .edit-btn {
   background: orange;
   color: white;
+}
+
+.edit-btn:hover {
+  background: darkorange;
 }
 
 .delete-btn {
@@ -126,12 +144,12 @@ h1 {
   color: white;
 }
 
-.complete-btn {
-  background: green;
-  color: white;
+.delete-btn:hover {
+  background: darkred;
 }
 
+/* Completed task style */
 .completed {
-  text-decoration: line-through;
-  opacity: 0.6;
+  background: #e8f5e9;
+  border-left: 5px solid #28a745;
 }

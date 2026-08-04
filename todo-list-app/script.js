@@ -16,8 +16,9 @@ const completedBtn = document.getElementById("completedBtn");
 const pendingBtn = document.getElementById("pendingBtn");
 
 let editIndex = -1;
+let currentFilter = "all";
 
-renderTasks();
+renderTasks(currentFilter);
 
 addBtn.addEventListener("click", function () {
   const name = taskName.value.trim();
@@ -45,13 +46,19 @@ addBtn.addEventListener("click", function () {
 
   saveTasks();
   clearForm();
-  renderTasks();
+  renderTasks(currentFilter);
 });
 
 function renderTasks(filter = "all") {
+  currentFilter = filter;
+
   taskList.innerHTML = "";
 
-  let filteredTasks = tasks;
+  let filteredTasks = [];
+
+  if (filter === "all") {
+    filteredTasks = tasks.filter((task) => !task.completed);
+  }
 
   if (filter === "completed") {
     filteredTasks = tasks.filter((task) => task.completed);
@@ -61,7 +68,9 @@ function renderTasks(filter = "all") {
     filteredTasks = tasks.filter((task) => !task.completed);
   }
 
-  filteredTasks.forEach((task, index) => {
+  filteredTasks.forEach((task) => {
+    const index = tasks.indexOf(task);
+
     const card = document.createElement("div");
     card.className = "task-card";
 
@@ -81,17 +90,17 @@ function renderTasks(filter = "all") {
             <div class="task-actions">
 
                 <button class="complete-btn"
-                    onclick="toggleComplete(${tasks.indexOf(task)})">
+                    onclick="toggleComplete(${index})">
                     ${task.completed ? "Undo" : "Complete"}
                 </button>
 
                 <button class="edit-btn"
-                    onclick="editTask(${tasks.indexOf(task)})">
+                    onclick="editTask(${index})">
                     Edit
                 </button>
 
                 <button class="delete-btn"
-                    onclick="deleteTask(${tasks.indexOf(task)})">
+                    onclick="deleteTask(${index})">
                     Delete
                 </button>
 
@@ -107,8 +116,10 @@ function renderTasks(filter = "all") {
 function deleteTask(index) {
   if (confirm("Delete this task?")) {
     tasks.splice(index, 1);
+
     saveTasks();
-    renderTasks();
+
+    renderTasks(currentFilter);
   }
 }
 
@@ -127,7 +138,7 @@ function toggleComplete(index) {
 
   saveTasks();
 
-  renderTasks();
+  renderTasks(currentFilter);
 }
 
 function updateCounts() {
